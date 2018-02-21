@@ -62,9 +62,9 @@ This setup process will take some time and may fail after the `[25/28]: migratin
 
 <div class="warn">
 [error] NetworkError: cannot connect to 'https://freeipa.sanbi.ac.za:8443/ca/rest/account/login': Could not connect to freeipa.sanbi.ac.za using any address: (PR_ADDRESS_NOT_SUPPORTED_ERROR) Network address type not supported.
-<br /><br />
+<br />
 ipa.ipapython.install.cli.install_tool(Server): ERROR cannot connect to 'https://freeipa.sanbi.ac.za:8443/ca/rest/account/login': Could not connect to freeipa.sanbi.ac.za using any address: (PR_ADDRESS_NOT_SUPPORTED_ERROR) Network address type not supported.
-<br /><br />
+<br />
 ipa.ipapython.install.cli.install_tool(Server): ERROR The ipa-server-install command failed. See /var/log/ipaserver-install.log for more information
 </div>
 

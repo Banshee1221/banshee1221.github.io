@@ -90,9 +90,9 @@ body {
 .container > header {
   background: transparent;
   color: white;
-  margin: ($heading-spacing - $section-spacing)
-          $section-spacing
-          $section-spacing;
+  margin: ($heading-spacing - $section-spacing * 200)
+          $section-spacing * 200
+          $section-spacing * 200;
 
   h1, h2 {
     color: white;
