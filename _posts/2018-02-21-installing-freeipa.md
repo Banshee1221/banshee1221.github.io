@@ -33,7 +33,7 @@ This installed around 550MB worth of files + dependencies.
 
 ### Installer configuration
 
-![Kerb auth screen](/assets/images/server_install_1.png){:class="img-responsive"}{:style="width: 38%; float: right; padding-left: 20px; margin-top: 12px; padding-bottom: 0px;"} During the install you'll be prompted with some configuration UIs. The first one you see will be to configure the Kerberos Realm configuration. Here you'll enter the name you want the realm to be. The default is often your DNS domain, but in uppercase. I chose SANBI.AC.ZA.
+![Kerb auth screen](/assets/images/server_install_1.png){:class="img-responsive"}{:style="width: 39%; float: right; padding-left: 30px; margin-top: 12px; padding-bottom: 0px;"} During the install you'll be prompted with some configuration UIs. The first one you see will be to configure the Kerberos Realm configuration. Here you'll enter the name you want the realm to be. The default is often your DNS domain, but in uppercase. I chose SANBI.AC.ZA.
 
 The next prompt will be for a kerberos server(s), I for the initial set-up I used the FreeIPA (`freeipa.sanbi.ac.za`) server as the Kerberos server as well. The prompt after that asks which server acts as the administrative server, which would be freeipa.sanbi.ac.za. Finally, on the krb5-admin-server prompt, press OK.
 
