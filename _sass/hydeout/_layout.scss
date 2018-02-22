@@ -33,7 +33,6 @@ body {
   flex-direction: column;
   min-width: 100vw;
   min-height: 100vh;
-  font-family: "Roboto" !important;
 }
 
 #sidebar {
@@ -41,7 +40,6 @@ body {
   padding: $section-spacing;
 
   .site-title {
-    font-family: "Roboto";
     font-weight: normal;
     font-size: $large-font-size;
     color: rgba(255,255,255,.75);
