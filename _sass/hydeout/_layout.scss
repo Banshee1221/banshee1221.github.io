@@ -33,6 +33,7 @@ body {
   flex-direction: column;
   min-width: 100vw;
   min-height: 100vh;
+  font-family: "Roboto" !important;
 }
 
 #sidebar {
@@ -40,7 +41,7 @@ body {
   padding: $section-spacing;
 
   .site-title {
-    font-family: "Abril Fatface", serif;
+    font-family: "Roboto";
     font-weight: normal;
     font-size: $large-font-size;
     color: rgba(255,255,255,.75);
@@ -260,7 +261,7 @@ body {
 }
 
 #sidebar nav > .icon {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   display: inline-block;
   margin: 0 0.25em;
 }
