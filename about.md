@@ -2,7 +2,6 @@
 layout: page
 title: About
 sidebar_link: true
-description: A little bit about myself.
 ---
 
 ![image-title-here](assets/images/eugene_de_beste_small.jpg){:class="img-responsive"}{:style="width: 40%; float: right; padding-left: 20px; margin-top: 25px;"}
