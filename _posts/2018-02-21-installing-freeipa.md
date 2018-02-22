@@ -2,6 +2,16 @@
 layout: post
 title: Installing FreeIPA on an Ubuntu Environment
 excerpt_separator:  <!--more-->
+categories:
+    - technology
+tags:
+    - first
+    - post
+    - freeipa
+    - authentication
+    - authorization
+    - federated authentication
+    - federated
 ---
 
 At SANBI we've been using an old combination of OpenLDAP + Kerberos and nsswitch to provide LDAP with NFS directories for user accounts for our virtual machines and HPC cluster. This was originally put in place to make authentication into machines easier and to allow users to access and use the cluster without manual setup of directories and user accounts. Over time this set-up has grown to be messy and more effort to maintain than worth while.
