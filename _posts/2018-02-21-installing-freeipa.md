@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Installing FreeIPA on an Ubuntu Environment
+title: Installing FreeIPA 4 on an Ubuntu Environment
 excerpt_separator:  <!--more-->
 categories:
     - technology
@@ -20,6 +20,8 @@ At SANBI we've been using an old combination of OpenLDAP + Kerberos and nsswitch
 This prompted the decision to look at alternatives. Enter FreeIPA. The main attraction to using FreeIPA is that it is much easier to use from a management and maintenance point of view. This, coupled with the fact that it's a lot more self-contained than the original set-up prompted me to try to play around with it.
 
 The blog post details the steps followed to set up the FreeIPA environment on servers and clients.
+
+---
 
 ## Server
 
@@ -109,3 +111,67 @@ ipa-server-install --uninstall && ipa-server-install
 The installation of the server should now be complete. To confirm, run kinit admin and enter the password for admin, it should return no error.
 
 You now now navigate to `https://freeipa.sanbi.ac.za` and log in with the kerberos admin user and pass.
+
+---
+
+## Client
+
+Most of the virtual machines at SANBI run some variant of Ubuntu. This ranges from a few outliers still on 12.04, some on 14.04 and most on 16.04. The machines that host these virtual machines are all CentOS 6.x based. Both the virtual machine hosts and virtual machines themselves were added to the ipa domain.
+
+Before setting up the client, ensure that a FQDN is used as the hostname for the machine. For example, if the machine is configured as `node11.sanbi.ac.za` on DNS, ensure that the machine itself reflects this in the `/etc/hostname` and `/etc/hosts` files. This applies to both Debian and RHEL based distributions.
+
+### CentOS 6.x
+
+On CentOS (version 6 at least), it's fairly easy to get the machine to join the ipa domain using the `ipa-client-install`. Once the command is run, you will be prompted with the following:
+
+- `Provide the domain name of your IPA server (ex: example.com):` _freeipa.sanbi.ac.za_
+  - This is the FQDN of the freeipa server.
+- `Provide your IPA server name:` _freeipa.sanbi.ac.za_
+  - This is the FQDN of the freeipa server.
+- `Autodiscovery of servers for failover cannot work with this configuration...` _yes_
+  - This ignores looking for failovers. This will be set up at a later stage.
+- `Continue to configure the system with these values? [no]:` _yes_
+  - This confirms the installation.
+- `User authorized to enroll computers:` _admin_
+  - This is the admin (default) user for the FreeIPA installation.
+
+Once you've entered the password, the `ipa-client-install` script will take care of configuring the machine. If all goes well, you can run the command `id admin` and you should get a result that looks something like this:
+
+```bash
+uid=10000(admin) gid=10000(admins) groups=10000(admins)
+```
+
+_Note: --mkhomedir was not specified for `ipa-client-install` here because the machines running CentOS at SANBI are mostly used as service hosts, which only admins have access to._
+
+### Ubuntu 14.04+
+
+I had some issues getting FreeIPA working with Ubuntu 12.04, so I'll ignore that for the time being. Getting it working in 14.04+ is a little more involved than it is on CentOS. It seems that the `pam.d/*` files __\*sometimes\*__ don't get configured correctly for Ubuntu when using the `ipa-client-install` script. This results in `authentication failure` error messages appearing when trying to log in to the system and forced me to have to enter `single` user mode in order to restore the system to a working order.
+
+Here's the gist: 
+
+The installation of the FreeIPA software is done the same way as with CentOS. `apt-get install freeipa-client` will get you access to the `ipa-client-install` script and I specified the `--mkhomedir` flag with that, since a lot of the Ubuntu VMs are user-facing. The full command I used is: `ipa-client-install --domain=sanbi.ac.za --server=freeipa.sanbi.ac.za --realm=SANBI.AC.ZA -p admin --mkhomedir`. After the installation is done you can test logging in and using sudo. If all works correctly, you are done.
+
+#### Issues
+
+If there are login issues, you can try the following. A couple of items need to be added or changed in the `/etc/pam.d/*` directory. If these lines exist you need to make sure they look the same as the following, otherwise you can add them:
+
+| File | Change |
+| ---- | ------ |
+| common-account | Add: `session required pam_mkhomedir.so skel=/etc/skel/ umask=0022` |
+| common-auth | Add: `auth  [success=4 default=ignore]      pam_sss.so use_first_pass` |
+| common-account | Add: `account sufficient         pam_localuser.so`, `account [default=bad success=ok user_unknown=ignore] pam_sss.so` |
+| common-password | Add: `password        sufficient      pam_sss.so` |
+| common-session | Add: `session optional                pam_sss.so` |
+
+and in the `/usr/share/pam-configs/my_mkhomedir` file (create it if it's not there already), add the below:
+
+```bash
+Name: activate mkhomedir
+Default: yes
+Priority: 900
+Session-Type: Additional
+Session:
+  required   pam_mkhomedir.so umask=0022 skel=/etc/skel
+```
+
+_Note: If you don't want user account directories created on login OR you have a setup where user directories can't be created on setup then omit the steps pertaining to home directories, i.e. leave out --mkhomedir and the pam.d configurations._
