@@ -15,6 +15,8 @@ tags:
 
 While upgrading the packages for the Ceph cluster at [SANBI](https://www.sanbi.ac.za), I encountered an issue where the Ceph MDS daemon was causing the CephFS filesystem to become unresponsive and stuck in the `active(laggy)` state. I decided to strip down the CephFS deployment and reinstall it, since the existing one was for testing (set up before my time) and I wanted to do the process of setting it up from scratch.
 
+<!--more-->
+
 It was surprisingly difficult to find a simple process for removing an MDS, but after I did some digging I ended up using the following:
 
 ```
