@@ -1,0 +1,109 @@
+---
+layout: post
+title: Generating Let's Encrypt Wildcard Certificates
+excerpt_separator:  <!--more-->
+categories:
+    - technology
+tags:
+    - security
+    - certificates
+    - ssl
+    - encryption
+    - network
+    - internet
+    - letsencrypt
+    
+---
+With the recent release of [Let's Encrypt](https://letsencrypt.org/)'s ACMEv2 protocol implementation, they've gained the ability to not only supply SSL certificates for single domains, but also all subdomains. I've been interested in switching from our previous CA to Let's Encrypt when their wildcard support dropped, because it makes renewal of certificates significantly easier due to automation capabilities of the platform. This blog post describes how to generate a wildcard certificate using `Certbot`.
+
+<!--more-->
+## Acquire Certbot
+`Certbot` is the tool developed by the guys over at the [Electronic Frontier Foundation (EFF)](https://www.eff.org/) in order to simplify the lives of people using Let's Encrypt (and other ACME protocol based CAs) by automatically fetching and deploying certificates.
+
+First, we need to get the `Certbot` executable. The latest release is available at the [EFF's website](https://dl.eff.org/certbot-auto).
+
+```bash
+wget https://dl.eff.org/certbot-auto
+chmod a+x ./certbot-auto
+```
+
+## Acquire Certificate
+Let's Encrypt gives you 3 ways to verify that you own the domain(s) in question: `http`, `dns` and `tls-sni` challenges. I used the `dns` challenge in my case, since [it appears that that's the only type that wildcard certificates support](https://community.letsencrypt.org/t/acme-v2-and-wildcard-certificate-support-is-live/55579).
+
+Generate a certificate with `Certbot`:
+```bash
+sudo ./certbot-auto certonly \
+  --server https://acme-v02.api.letsencrypt.org/directory \
+  --manual \
+  --preferred-challenges dns \
+  -d <your_domain_here> \
+  -m <your_email_here> \
+  --agree-tos \
+  --no-eff-email \
+  --manual-public-ip-logging-ok
+```
+_If you do want to share your email with the EFF, replace the `--no-eff-email` flag with `--eff-email`._
+
+In my case, I used the following arguments:
+```bash
+sudo ./certbot-auto certonly \
+  --server https://acme-v02.api.letsencrypt.org/directory \
+  --manual \
+  --preferred-challenges dns \
+  -d sanbi.ac.za \
+  -d *.sanbi.ac.za \
+  -d *.wp.sanbi.ac.za \
+  -m eugene@sanbi.ac.za \
+  --agree-tos \
+  --no-eff-email \
+  --manual-public-ip-logging-ok
+```
+
+## Add DNS Records
+Once the certificate is obtained, `Certbot` will prompt the user with a message similar to the following:
+
+<div class="message">
+Performing the following challenges:<br/>
+dns-01 challenge for sanbi.ac.za<br/><br/>
+-------------------------------------------------------------------------------<br/>
+Please deploy a DNS TXT record under the name<br/>
+_acme-challenge.sanbi.ac.za with the following value:<br/>
+<br/>
+RjMppEEL6MImK8EB5LSadOLsrdcxNIbGxUk8rjxWd6U<br/>
+<br/>
+Before continuing, verify the record is deployed.<br/>
+-------------------------------------------------------------------------------
+</div>
+
+In your DNS provider configuration, you need to add a new `TXT` record name with `_acme-challenge.<your_domain_here>` and the corresponding value provided by the program. Do this for all the domains that you have specified.
+
+If you run your own named/bind9 server, add the following line, update your serial and reload your rules:
+```bash
+_acme-challenge.<your_domain_here>.    IN  TXT <value>
+```
+
+Before you continue with `Certbot`, check that your DNS server records have propagated using `dig` or `nslookup`. For example: `dig -t TXT _acme-challenge.sanbi.ac.za` will produce something like:
+
+<div class="message">
+; <<>> DiG 9.12.1 <<>> -t TXT _acme-challenge.sanbi.ac.za<br />
+;; global options: +cmd<br />
+;; Got answer:<br />
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 25805<br />
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1<br />
+<br />
+;; OPT PSEUDOSECTION:<br />
+; EDNS: version: 0, flags:; udp: 512<br />
+;; QUESTION SECTION:<br />
+;_acme-challenge.sanbi.ac.za.	IN	TXT<br />
+<br />
+;; ANSWER SECTION:<br />
+_acme-challenge.sanbi.ac.za. 3599 IN	TXT	"RjMppEEL6MImK8EB5LSadOLsrdcxNIbGxUk8rjxWd6U"<br />
+<br />
+;; Query time: 462 msec<br />
+;; SERVER: XXX.XXX.XXX.XXX#XX(XXX.XXX.XXX.XXX)<br />
+;; WHEN: Sat Mar 24 14:02:10 SAST 2018<br />
+;; MSG SIZE  rcvd: 112<br />
+</div>
+
+## Apply Certificates
+Now that your certificates are generated, you can apply it to the webserver of your choice. The files will be found in /etc/letsencrypt/live/_your\_domain_/*.pem.
