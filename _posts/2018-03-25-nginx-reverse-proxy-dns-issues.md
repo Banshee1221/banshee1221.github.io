@@ -19,7 +19,7 @@ While configuring some of the internal services that we host for external access
 <!--more-->
 ## Description
 We have 2 nameservers at SANBI that handle out internal and external records. The external stuff is synced off to [Cloudfloor](https://www.mtgsy.net). The IP addresses of both are used in each of the `server` blocks under the `location` block for our services:
-```Nginx
+```nginx
 server {
     listen              80;
 
@@ -39,7 +39,7 @@ server {
 
 ```
 This seemed to be a fairly normal configuration from what I'd been reading up online. However, I was seeing these `502` errors intermittently. For example, after restarting the `nginx` service the first poll to a hostname would result in a `502`, but the subsequent few would not, and then again a `502` after some time passes. I dug into the error logs of the proxy server and saw a suspicious looking line:
-```Text
+```
 2018/03/24 22:42:42 [error] 3302#3302: *101 <server>.sanbi.ac.za could not be resolved (2: Server failure), client: <ip address> ...
 ```
 You know that old haiku about DNS, right?
@@ -56,15 +56,15 @@ This was clearly an issue with the way that NGINX was resolving hostnames from t
 
 ## Solution
 The stupid solution would be to just set `resolver <ns address> valid=10000000s;` or something dumb, but I'm looking for a proper answer to this problem. What I ended up doing was installing `dnsmasq` on the proxy server. I explicitly disabled the dhcp stuff to be safe
-```Text
+```
 no-dhcp-interface=<NIC_name>
 ```
 and specified my internal nameservers
-```Text
+```
 server=<NS1_ip>
 server=<NS2_ip>
 ...
 ```
 I then changed the global resolver in the `/etc/nginx/nginx.conf` file to point to `127.0.0.1` and made sure that none of my `server` blocks had any residual `resolver` entries.
 
-Once the`dnsmasq` and `nginx` services were restarted, everything worked without a hitch :)
+Once the`dnsmasq` and `nginx` services were restarted, everything worked without a hitch :) I suspect that it has something to do with latency of reaching the name server, but I haven't investigated thoroughly so take that wit ha pinch of salt!
