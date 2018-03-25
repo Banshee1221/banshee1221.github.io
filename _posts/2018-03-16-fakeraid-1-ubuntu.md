@@ -17,6 +17,8 @@ I encountered an issue booting Ubuntu Server 16.04 when installing it on a Super
 
 To solve this issue I booted into a live CD of Ubuntu 16.04 and did the following from the terminal:
 
+<!--more-->
+
 ```bash
 sudo su
 mount /dev/mapper/<name of your raid partition> /mnt
