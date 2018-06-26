@@ -190,7 +190,10 @@ Each of the pipeline steps are separated into a respective directory and all of 
 
 ---
 
-<b id="f1">1</b>: CWL maps the input arguments to the command-line with the appropriate positions as specified in the CWL definition. Using the above snippet (_calibration\_prep.cwl_) as an example, it would look something like this: `python3 prepare.py configuration.yml`
+<b id="f1">1</b>: CWL maps the input arguments to the command-line with the appropriate positions as specified in the CWL definition. Using the above snippet (_calibration\_prep.cwl_) as an example, it would look something like this: 
+```shell
+python3 prepare.py configuration.yml
+```
 
 ## The Workshop
 
