@@ -13,6 +13,7 @@ tags:
     - data
     - big data
     - workshop
+    - cwl
     
 ---
 <figure>
@@ -213,7 +214,7 @@ Creating the workflow itself was more challenging for them. They struggled a bit
 
 ### Scattering
 
-The most complicated part of the workflow for them was the `scatter` method that CWL uses to split work into chunks. In short, the `scatter` method is a way of defining how an array of inputs to a tool (which could be output from another) is processed. As of now, there are 3 types of `scatter`:
+The most complicated part of the workflow for them was the `scatter` method that CWL uses to split work into chunks. In short, the `scatter` method is a way of defining how an array of inputs to a tool (which could be output from another) is processed. As of now, there are three types of `scatter`:
 
 * dotproduct
 * nested_crossproduct
@@ -244,10 +245,10 @@ For the most part, while building the workflow, we had been using the `cwl-runne
 
 <figure>
     <img style="border: .5px solid black;" class="img-responsive" src="/assets/images/cwl_toil_time_chart.png" alt="Blasting Students with Science"/>
-    <figcaption style="margin-top: 0px; font-size: 13px; text-align: center"><i>3 Observations Enabled</i></figcaption>
+    <figcaption style="margin-top: 0px; font-size: 13px; text-align: center"><i>Three Observations Enabled</i></figcaption>
 </figure>
 
-These results are to be expected. The results of the manual execution of each step and the `cwl-runner` step should be more or less the same, whereas the `cwltoil` execution should scale to be faster based on how many observations are enabled! In this case there were 3.
+These results are to be expected. The results of the manual execution of each step and the `cwl-runner` step should be more or less the same, whereas the `cwltoil` execution should scale to be faster based on how many observations are enabled! In this case there were three.
 
 ## Final Thoughts
 
