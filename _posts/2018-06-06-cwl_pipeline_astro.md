@@ -199,6 +199,98 @@ python3 prepare.py configuration.yml
 
 Now that we have the background out of the way, let's move on to the actual workshop and the process of getting the students to write CWL.
 
-To prepare, I emptied the majority of the body of the workflow file that I was using for this pipeline. I left the headings for some of the sections, since the students would be very unfamiliar with the structure of the CWL. I threw them into the deep end with the tool definitions by asking them to write tools for each part of the pipeline up to the splitms section, which was the last one I was able to complete before the workshop. They had the existing code for the preparation and algorithm parts of each step in the pipeline to work with.
+To prepare, I emptied the majority of the body of the workflow file that I was using for this pipeline, `pipeline.cwl`. I left the headings for some of the sections, since the students would be very unfamiliar with the structure of the CWL. I threw them into the deep end with the tool definitions by asking them to write tools for each part of the pipeline up to the splitms section, which was the last one I was able to complete before the workshop started. They had the existing code for the preparation and algorithm parts of each step in the pipeline to work with.
 
 It was really interesting to watch them work. They had to take time to run the code and explore it individually to understand what each part was doing in order for them to start thinking about it in the sense of a workflow.
+
+### Tools
+
+This was the first step for the students in the CWL work and it did introduce some confusion about why it is necessary to use CWL in the first place. I spent some time explaining the concepts and what this workflow language tries to achieve. When someone is completely unfamiliar with a concept and fails to understand it's usefulness from an explanation, the only way to get them to understand is to have them work with it directly!
+
+It didn't take long for them to start understanding how CWL structures tool definitions. They wrapped all of the various steps in CWL fairly quickly, which serves to show the simplicity of CWL's syntax and flow, as these students were not from a CS background. This was very encouraging to see.
+
+### Workflow
+
+Creating the workflow itself was more challenging for them. They struggled a bit with logically following the flow of the analysis in terms of which tool outputs what and where that output needs to be fed to. They spent some time brainstorming and we worked through drawing it all out with pen and paper. This approach really helped them fully understand the layout and it was then much easier for them to build and debug the workflow.
+
+### Scattering
+
+The most complicated part of the workflow for them was the `scatter` method that CWL uses to split work into chunks. In short, the `scatter` method is a way of defining how an array of inputs to a tool (which could be output from another) is processed. As of now, there are 3 types of `scatter`:
+
+* dotproduct
+* nested_crossproduct
+* flat_crossproduct
+
+Dotproduct is the simplest and basically means that each item in each array that is being scattered over will be used in a self-contained step. For example, if you have two array inputs that correspond with each other on index:
+
+* listOfNames = [name1, name2, name3]
+* phoneNumbers = [number1, number2, number3]
+
+Each of the names correspond with each of the phone number on the index value, so name1's phone number is number1 and name2's is number2. Using `dotproduct` will mean that the inputs to the tool will be each index pair. If the tools is to print the name with the number next to it it would come out as:
+
+```text
+name1 number1
+name2 number2
+name3 number3
+```
+
+To read more about scattering, check the [Common Workflow Language Documentation](https://www.commonwl.org/v1.0/Workflow.html#ScatterMethod).
+
+### Result
+
+Eventually, with some trial and error on their part and explanations of the various stages and operations of CWL from me, the group managed to fully complete the workflow for the challenge that was set out. They had built the workflow up to where I had and we could achieve the same results from running my original workflow and running theirs.
+
+We built a Jupyter notebook frontend that could configure the various parameters needed by the pipeline and execute the CWL workflow. It must be noted that the parameters used for the observational dataset I provided the students were intentionally set with speed of execution in mind and not scientific accuracy, due to fear of not having enough time to debug and rerun the workflow.
+
+For the most part, while building the workflow, we had been using the `cwl-runner` reference binary to execute the workflows. This is a tool provided by the CWL group that serves as a template base common set of functionality for other groups to build on. After I was satisfied with the state of their workflow we moved on to using the `cwltoil` executor, which has support for features like batch schedulers and implicit parallelism. The students even put together a neat little chart that showcased the difference in performance they achieved when using `cwltoil` coupled with `slurm`:
+
+<figure>
+    <img class="img-responsive" src="/assets/images/cwl_toil_time_chart.png" alt="Blasting Students with Science"/>
+    <figcaption style="text-align: center"><i>3 Observations Enabled</i></figcaption>
+</figure>
+
+These results are to be expected. The results of the manual execution of each step and the `cwl-runner` step should be more or less the same, whereas the `cwltoil` execution should scale to be faster based on how many observations are enabled! In this case there were 3.
+
+## Final Thoughts
+
+Myself and the students had a blast while hacking away at the CWL workflow for this pipeline. They surely learnt a lot and I also picked up a few things that I hadn't thought about before!
+
+We weren't able to make the workflow as portable as I would have liked. This is mainly due to not utilizing containers in the way that I had originally hoped to, but this wasn't a train-smash and we discussed the theory of doing it this way.
+
+There were some negative points that were brought to light with the exercise. The main things are:
+
+#### CWL has bugs
+
+This obviously goes for all software out there, but during the workshop we experienced some issues with executing the Singularity containers that I had brought with me. This was due to the way that `cwl-runner` was trying to execute these containers with specific versions of Singularity and it meant that the user required admin privileges, which goes against what we desire in this case. [See this Github issue](https://github.com/common-workflow-language/cwltool/issues/764).
+
+The developer community is incredibly responsive and eager to help. Once this issue was reported and a fix suggested it was merged and an update of the tool was released in around an hour or two!
+
+#### No simple way to move files to working directory of tool
+
+When we were originally working on the tools, we could not find a way to use a script that is shipped with the workflow as the `baseCommand` (or command/binary) from the same directory that the `.cwl` file is being called from. This stems from the way that CWL tries to encourage the usage of portable tools that are pre-packaged.
+
+There may have been a solutions to this, but the ones we attempted would not work and we could not find much information about how to achieve this.
+
+#### Paradigms
+
+This probably ties into the above point, but along with this it took some time for the students to understand why this approach is better than what they had been doing up to now. Many researchers write large bash scripts that string together the tools that they want to use in their pipelines. Jupyter notebooks have aided in making it easier to move mainly Python based code, but CWL is a language and tool agnostic approach to this problem.
+
+I suspect that this will be the case for many researchers to come.
+
+#### Improving the workflow
+
+There are ways that performance can be improved even further. Taking advantages of things such as `subworkflows` can allow steps in the workflow to not be held back by parts in the same step when using array inputs.
+
+Containerization of the scripts and tools used could also ensure the portability of the workflow and I made sure to explain to the students why this is important to think about when they work with their own code.
+
+## Conclusion
+
+Overall, I think that the workshop was a success and I know that the students learnt some skills that they will hopefully carry with them throughout their scientific careers.
+
+I look forward to improving my own knowledge and skills with workflow standard and languages as well as teaching at more workshops in the future to spread the gospel! 
+
+It's been a while since the workshop and I may have forgotten some of the points I wanted to raise in this blog post... also it's probably not the most well-written post, but be gentle on me as I'm still getting into this blogging thing :)
+
+Plus, Madagascar was beautiful! :D
+
+![Simple Breakdown](/assets/images/madagascar_760D.jpg){:class="img-responsive"}
