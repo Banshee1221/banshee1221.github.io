@@ -28,9 +28,9 @@ This post details some of my experiences with preparing the original pipeline, w
 <!--more-->
 ## Background
 
-I was originally brought into knowledge about the event by my boss, who had the idea of getting me involved to give students a workshop on something slightly higher level than domain specific science. Due to the growing concept of research cloud computing and my involvement in the South African Data Intensive Research Cloud (SADIRC) joint project, we settled on the idea of giving students a crash course in infrastructure-as-code.
+My boss originally informed me about the event and suggested that I get involved to give students a workshop on something slightly higher level than domain specific science. Due to the growing concept of research cloud computing and my involvement in the South African Data Intensive Research Cloud (SADIRC) joint project, we settled on the idea of giving students a crash course in infrastructure-as-code.
 
-We were met with some hesitation after pitching the idea to some of the organisers. Direct scientists often don't understand the usefulness of knowing some higher-level stuff about the environments that they run their code on.
+We were met with some hesitation after pitching the idea to some of the organisers. Non-CS domain scientists often don't understand the usefulness of knowing some higher-level stuff about the environments that they run their code on... though, to be fair, a lot of CS scientists are bad too 😑.
 
 Eventually I thought about reproducible scientific processes. I had been involved in turning bioinformatics pipelines into reproducible workflows in a [hackathon held by the H3Africa](https://aasopenresearch.org/articles/1-9/v1), where I was exposed to the [Common Workflow Language](https://www.commonwl.org/) (CWL).
 
@@ -44,15 +44,15 @@ Whew, that was a mouthful. Prepare for more!
 
 I received copies of the code used for the original pipeline. This code was all written in Python and some parts of it took advantage of a toolkit for astronomy called the _Common Astronomy Software Applications_ ([CASA](https://casa.nrao.edu/)).
 
-The original code was all written with in [Jupyter](https://jupyter.org/), which is a fantastic frontend and tool for distributing Python code. Theoretically this should all be normal and fine, until you have a look at what was actually being done here.
+The original code was all written within [Jupyter](https://jupyter.org/), which is a fantastic frontend and tool for distributing Python code. Theoretically this should all be normal and fine, until you have a look at what was actually being done here.
 
-The pipeline is broken up into multiple steps, for which each do something onto the resulting work from the previous step. The first step, calibration, takes data from a telescope and calibrates it to a known good source. Metadata about the datasets that are available for processing, including the amount of observations in each dataset, are defined by a simple `datasets.py` file, which contains classes to define them. This is imported into every part of the pipeline.
+The pipeline is broken up into multiple steps, each of which does something onto/to the resulting work from the previous step. The first step, _calibration_, takes data from a telescope and calibrates it to a known good source. Metadata about the datasets that are available for processing, including the amount of observations in each dataset, are defined by a simple `datasets.py` file, which contains classes to define them. This is imported into every part of the pipeline.
 
 ![Simple Breakdown](/assets/images/russ_pipeline_simple_1.png){:class="img-responsive"}
 
 Each part of the pipeline has shared parameters that apply to the dataset and observations in question, as well as their own parameters which are unique to that step. This is repeated in every Jupyter notebook.
 
-The pipeline also makes use of the [slurm](https://slurm.schedmd.com/) scheduler, where it is run against various virtual machines that act as an HPC environment ontop of the IDIA cloud (don't get me started...). The scripts being written in Jupyter do not allow this integration directly. To remedy this, the Jupyter notebooks effectively generate a large string of Python code syntax and tune it with the settings specified in the parameters set at the top of the given notebook. This string is written out as a plain `.py` file to the disk. A definition file for the scheduler is also written out and is run using the `os.system()` function from within the notebook, which then runs this script in a CASA [Singularity](https://singularity.lbl.gov/) container.  
+The pipeline also makes use of the [slurm](https://slurm.schedmd.com/) scheduler, where it is run against various virtual machines that act as an HPC environment on top of the IDIA cloud (don't get me started...). The scripts being written in Jupyter do not allow this integration directly. To remedy this, the Jupyter notebooks effectively generate a large string of Python code syntax and tune it with the settings specified in the parameters set at the top of the given notebook. This string is written out as a plain `.py` file to the disk. A definition file for the scheduler is also written out and is run using the `os.system()` function from within the notebook, which then runs this script in a CASA [Singularity](https://singularity.lbl.gov/) container.  
 
 This is an interesting solution to say the least! The major advantage here is that you can prepare the dataset/observation and horizontally scale that out with additional slurm jobs.
 
@@ -62,13 +62,13 @@ CWL expects work units to fit into its idea of a "tool". Basically, a tool is a 
 
 This was the first challenge. None of the existing notebooks could be directly used as a tool for CWL and they were also doing too many things to be considered a coherent "tool" that focussed on doing one thing.
 
-Each of the pipeline steps needed to be reworked. With maybe more than a month before the actual workshop, I had to focus on getting things working rather than making them pretty. I ended up splitting the preparation step out into its own tool, which would output a `JSON` file that would be used by the actual pipeline step. This was converted from this Python-code-as-a-string-to-be-written-out-to-a-script form into a separate Python script that used a functions and parameters to apply parameter changes.
+Each of the pipeline steps needed to be reworked. With maybe more than a month before the actual workshop, I had to focus on getting things working rather than making them pretty. I ended up splitting the preparation step out into its own tool, which would output a `JSON` file that would be used by the actual pipeline step. This was converted from this Python-code-as-a-string-to-be-written-out-to-a-script form into a separate Python script that used functions and parameters to apply parameter changes.
 
 ## Wrapping in CWL
 
-I converted each step of the pipeline into two tools: the pre-processing tool and the algorithm execution tool. Except for the very first step, calibration preparation, each tool would take the output of some previous one. The preparation tool does some preprocessing of the data and creates a data structure that would be read in by the actual work step which follows it.
+I converted each step of the pipeline into two tools: the preprocessing tool and the algorithm execution tool. Except for the very first step, calibration preparation, each tool would take the output of some previous one. The preparation tool does some preprocessing of the data and creates a data structure that would be read in by the actual work step which follows it.
 
-With this pipeline using code from Prof. Taylor that he didn't want exposed to the internet at the stage of the workshop, I was unable to create portable Docker/Singularity images to use as the tools. CWL works very well with Docker/Singularity and it's definitely my prefered way of running workflows.
+With this pipeline using code from Prof. Taylor that he didn't want exposed to the internet at the stage of the workshop, I was unable to create portable Docker/Singularity images to use as the tools. CWL works very well with Docker/Singularity and it's definitely my preferred way of running workflows.
 
 The two parts detailed below are strung together into what CWL refers to as a workflow, which is a separate file that defines which tools run at which steps of the pipeline as well as which tools depend on which outputs from others.
 
@@ -113,7 +113,7 @@ outputs:
 
 ### Algorithm Part
 
-The crowd at IDIA keep custom CASA and [WSClean](https://arxiv.org/pdf/1407.1943.pdf) (among other) Singularity containers that work at different parts of different researchers pipelines. This pipeline made use of some of those two mentioned. These custom built Singularity images were not worth uploading to Singularityhub for the purposes of running the workflow in the workshop, since they are quite large and not optimized for distribution. I opted to move the containers to the machine that the students would be executing the jobs on before hand and have them point to those during execution.
+The crowd at IDIA keep custom CASA and [WSClean](https://arxiv.org/pdf/1407.1943.pdf) (among other) Singularity containers that work at different parts of different researchers pipelines. This pipeline made use of some of those two mentioned. These custom built Singularity images were not worth uploading to Singularityhub for the purposes of running the workflow in the workshop, since they are quite large and not optimised for distribution. I opted to move the containers to the machine that the students would be executing the jobs on before hand and have them point to those during execution.
 
 _The below snippet is the CWL definition for the **algorithmic** part of the **calibrate** step of the pipeline_:
 
@@ -203,7 +203,7 @@ It was really interesting to watch them work. They had to take time to run the c
 
 ### Tools
 
-This was the first step for the students in the CWL work and it did introduce some confusion about why it is necessary to use CWL in the first place. I spent some time explaining the concepts and what this workflow language tries to achieve. When someone is completely unfamiliar with a concept and fails to understand it's usefulness from an explanation, the only way to get them to understand is to have them work with it directly!
+This was the first step for the students in the CWL work and it did introduce some confusion about why it is necessary to use CWL in the first place. I spent some time explaining the concepts and what this workflow language tries to achieve. When someone is completely unfamiliar with a concept and fails to understand its usefulness from an explanation, the only way to get them to understand is to have them work with it directly!
 
 It didn't take long for them to start understanding how CWL structures tool definitions. They wrapped all of the various steps in CWL fairly quickly, which serves to show the simplicity of CWL's syntax and flow, as these students were not from a CS background. This was very encouraging to see.
 
@@ -224,7 +224,7 @@ Dotproduct is the simplest and basically means that each item in each array that
 * listOfNames = [name1, name2, name3]
 * phoneNumbers = [number1, number2, number3]
 
-Each of the names correspond with each of the phone number on the index value, so name1's phone number is number1 and name2's is number2. Using `dotproduct` will mean that the inputs to the tool will be each index pair. If the tools is to print the name with the number next to it it would come out as:
+Each of the names correspond with each of the phone number on the index value, so name1's phone number is number1 and name2's is number2. Using `dotproduct` will mean that the inputs to the tool will be each index pair. If the tool is to print the name with the number next to it it would come out as:
 
 ```text
 name1 number1
