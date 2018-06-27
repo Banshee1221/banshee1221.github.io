@@ -286,7 +286,7 @@ Containerization of the scripts and tools used could also ensure the portability
 
 Overall, I think that the workshop was a success and I know that the students learnt some skills that they will hopefully carry with them throughout their scientific careers.
 
-I look forward to improving my own knowledge and skills with workflow standard and languages as well as teaching at more workshops in the future to spread the gospel! 
+I look forward to improving my own knowledge and skills with workflow standard and languages as well as teaching at more workshops in the future to spread the gospel! I'll also probably eventually work up the desire to continue working on the workflow by rewriting the rushed code and finishing the rest of the steps in CWL.
 
 It's been a while since the workshop and I may have forgotten some of the points I wanted to raise in this blog post... also it's probably not the most well-written post, but be gentle on me as I'm still getting into this blogging thing :)
 
