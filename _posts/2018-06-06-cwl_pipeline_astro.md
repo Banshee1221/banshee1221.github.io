@@ -189,11 +189,9 @@ $ tree .
 Each of the pipeline steps are separated into a respective directory and all of the CWL tool definitions from each of the directories are strung together in the `pipeline.cwl` file, which is the overall workflow definition. The `configuration.yml` and `configuration_jupyter.yaml` files are essentially the same data files that provide the parameters for the pipeline execution, but they are just set differently with the one being set by manually editing it and the other being set through a Jupyter interface. Only one of them is specified when executing the workflow.
 
 ---
-
-<b id="f1">1</b>: CWL maps the input arguments to the command-line with the appropriate positions as specified in the CWL definition. Using the above snippet (_calibration\_prep.cwl_) as an example, it would look something like this: 
-```shell
-python3 prepare.py configuration.yml
-```
+<p style="font-size: 13px;"><b id="f1">1</b>: CWL maps the input arguments to the command-line with the appropriate positions as specified in the CWL definition. Using the above snippet (<i>calibration_prep.cwl</i>) as an example, it would look something like this: 
+<code>python3 prepare.py configuration.yml</code> <a href="#a1">↩</a>
+</p>
 
 ## The Workshop
 
