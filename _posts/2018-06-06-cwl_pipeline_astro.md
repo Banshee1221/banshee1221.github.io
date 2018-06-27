@@ -17,7 +17,7 @@ tags:
 ---
 <figure>
     <img class="img-responsive" src="/assets/images/jedi.jpg" alt="Blasting Students with Science"/>
-    <figcaption style="text-align: center"><i>Blasting Students with Science</i></figcaption>
+    <figcaption style="margin-top: 0px; font-size: 13px; text-align: center"><i>Blasting Students with Science</i></figcaption>
 </figure>
 
 
@@ -109,7 +109,7 @@ outputs:
       glob: "*.dat"
 ```
 
-<p align="center"><i>calibration_prep.cwl</i></p>
+<p style="margin-top: -10px; font-size: 13px; text-align: center"><i>calibration_prep.cwl</i></p>
 
 ### Algorithm Part
 
@@ -147,7 +147,7 @@ outputs:
       glob: "*.txt"
 ```
 
-<p align="center"><i>calibration.cwl</i></p>
+<p style="margin-top: -10px; font-size: 13px; text-align: center"><i>calibration.cwl</i></p>
 
 In this case I used the Singularity runtime as the tool and provided the script that calls functions from the CASA container (_calibrate.py_) as an input for that. This CWL tool also expects another input, _calibration\_input.dat_, which is the output from the preparation step of this part of the pipeline.
 
@@ -243,8 +243,8 @@ We built a Jupyter notebook frontend that could configure the various parameters
 For the most part, while building the workflow, we had been using the `cwl-runner` reference binary to execute the workflows. This is a tool provided by the CWL group that serves as a template base common set of functionality for other groups to build on. After I was satisfied with the state of their workflow we moved on to using the `cwltoil` executor, which has support for features like batch schedulers and implicit parallelism. The students even put together a neat little chart that showcased the difference in performance they achieved when using `cwltoil` coupled with `slurm`:
 
 <figure>
-    <img class="img-responsive" src="/assets/images/cwl_toil_time_chart.png" alt="Blasting Students with Science"/>
-    <figcaption style="text-align: center"><i>3 Observations Enabled</i></figcaption>
+    <img style="border: .5px solid black;" class="img-responsive" src="/assets/images/cwl_toil_time_chart.png" alt="Blasting Students with Science"/>
+    <figcaption style="margin-top: 0px; font-size: 13px; text-align: center"><i>3 Observations Enabled</i></figcaption>
 </figure>
 
 These results are to be expected. The results of the manual execution of each step and the `cwl-runner` step should be more or less the same, whereas the `cwltoil` execution should scale to be faster based on how many observations are enabled! In this case there were 3.
