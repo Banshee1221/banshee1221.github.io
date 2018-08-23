@@ -15,7 +15,7 @@ tags:
     
 ---
 
-If you're impatient, skip to the <a href="#solution">solution section</a> ☺
+If you're impatient, skip to the <a href="/technology/2018/08/23/ceph_erasure_openstack.html#solution">solution section</a> ☺
 
 Over the last few months I've been working with the University of Cape Town on the [Ilifu research cloud project](http://www.researchsupport.uct.ac.za/ilifu). The focus for the initial release of the cloud is mainly to provide compute and storage to astronomy and bioinformatics use cases.
 
