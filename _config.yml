@@ -1,45 +1,71 @@
-# Dependencies
-markdown:         kramdown
-highlighter:      rouge
+#
+###################################
+# Site wide configuration
+####################################
+#
+title: TheMeanTime
+email: debeste.eugene@gmail.com
+description: A Blog About My Personal Experiences in Tech
+url: https://themeanti.me
+keywords: ["blog", "jekyll", "tech", "programming", "devops"]
 
-# Setup
-title:            TheMeanTime
-tagline:          'A personal blog'
-description:      'A Personal Blog'
-url:              https://themeanti.me
-baseurl:          # the optional subpath of your site, e.g. "/blog"
-                  # NB: This applies to all pages in your Jekyll site.
-                  # If you want to move just the blog index pages but keep
-                  # other pages at root, see the paginate_path and
-                  # sidebar_blog_link below.
+#
+###################################
+# Jekyll configuration
+####################################
+#
+timezone:          Africa/Johannesburg
+markdown:          kramdown
+highlighter:       rouge
+excerpt_separator: <!--more-->
+permalink:         /:categories/:year/:month/:day/:title.html
 
-author:
-  name:           'Eugene de Beste'
-  url:            https://github.com/Banshee1221
+kramdown:
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  enable_coderay: false
 
-paginate:         5
-# paginate_path:    '/page:num'
-                    # Or '/blog/page:num' if you want to move your index pages
-
-plugins:
-  - jekyll-feed
-  - jekyll-gist
-  - jekyll-paginate
-  - jekyll-seo-tag
-  - jekyll-sitemap
-
-# Custom vars
-version:            3.5.3
-sidebar_home_link:  true
-# sidebar_blog_link:  '/blog'   # By default, your home page is your blog
-                                # page. If you change your paginate_path,
-                                # set this to the root of the paginate_path
-                                # to enable a separate blog link.
-github:
-  repo:             https://github.com/Banshee1221
-
-twitter:            https://twitter.com/edebeste
-
-linkedin:           https://www.linkedin.com/in/eugene-de-beste
-
-google_analytics:   UA-115666618-1
+#
+###################################
+# Site Owner configuration
+####################################
+#
+owner:
+  name: TheMeanTi.me
+  avatar: eugene_de_beste_small.jpg
+  job: "Eugene de Beste"
+  bio: "A Blog About My Personal Experiences in Tech."
+  email: debeste.eugene@gmail.com
+  disqus-shortname:
+  twitter: edebeste
+  facebook: #
+  google:
+    plus: #username
+    analytics: UA-115666618-1
+    verify:
+    ad-client:
+    ad-slot:
+  bing-verify:
+  github: Banshee1221
+  gitlab: #username
+  stackoverflow: #123456/username   from a "http://stackoverflow.com/users/123456/username" link
+  linkedin: eugene-de-beste
+  skype: #username
+  xing: #username
+  instagram: #username
+  lastfm: #username
+  tumblr: #username
+  pinterest: #username
+  foursquare: #username
+  steam: #
+  dribbble: #username
+  youtube: #username
+  soundcloud: #username
+  weibo: #username
+  flickr: #username
+  500px: #username
+  codepen: #username
+  reddit: #username
+  telegram: #username

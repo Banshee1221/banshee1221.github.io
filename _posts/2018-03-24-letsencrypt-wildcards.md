@@ -84,26 +84,26 @@ _acme-challenge.<your_domain_here>.    IN  TXT <value>
 
 Before you continue with `Certbot`, check that your DNS server records have propagated using `dig` or `nslookup`. For example: `dig -t TXT _acme-challenge.sanbi.ac.za` will produce something like:
 
-<div class="message">
-; <<>> DiG 9.12.1 <<>> -t TXT _acme-challenge.sanbi.ac.za<br />
-;; global options: +cmd<br />
-;; Got answer:<br />
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 25805<br />
-;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1<br />
-<br />
-;; OPT PSEUDOSECTION:<br />
-; EDNS: version: 0, flags:; udp: 512<br />
-;; QUESTION SECTION:<br />
-;_acme-challenge.sanbi.ac.za.	IN	TXT<br />
-<br />
-;; ANSWER SECTION:<br />
-_acme-challenge.sanbi.ac.za. 3599 IN	TXT	"RjMppEEL6MImK8EB5LSadOLsrdcxNIbGxUk8rjxWd6U"<br />
-<br />
-;; Query time: 462 msec<br />
-;; SERVER: XXX.XXX.XXX.XXX#XX(XXX.XXX.XXX.XXX)<br />
-;; WHEN: Sat Mar 24 14:02:10 SAST 2018<br />
-;; MSG SIZE  rcvd: 112<br />
-</div>
+```text
+; <<>> DiG 9.12.1 <<>> -t TXT _acme-challenge.sanbi.ac.za
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 25805
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 512
+;; QUESTION SECTION:
+;_acme-challenge.sanbi.ac.za.	IN	TXT
+
+;; ANSWER SECTION:
+_acme-challenge.sanbi.ac.za. 3599 IN	TXT	"RjMppEEL6MImK8EB5LSadOLsrdcxNIbGxUk8rjxWd6U"
+
+;; Query time: 462 msec
+;; SERVER: XXX.XXX.XXX.XXX#XX(XXX.XXX.XXX.XXX)
+;; WHEN: Sat Mar 24 14:02:10 SAST 2018
+;; MSG SIZE  rcvd: 112
+```
 
 ## Apply Certificates
 Now that your certificates are generated, you can apply it to the webserver of your choice. The files will be found in /etc/letsencrypt/live/_your\_domain_/*.pem.

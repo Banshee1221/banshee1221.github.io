@@ -1,0 +1,21 @@
+# careers section data
+# if you don't have language feature(language.yml is empty), ignore "i18n" items
+- name: South African National Bioinformatics Institute
+  link: https://sanbi.ac.za/
+  date: Dec 2017 - <i class="fa fa-clock-o" aria-hidden="true" title="Until Now"></i>
+  job: Systems/Cloud Engineer
+
+- name: ILIFU
+  link: http://www.ilifu.ac.za/
+  date: Apr 2018 - 2019
+  job: Collaborator Research Cloud Project
+
+- name: VOSS-Solutions
+  link: https://www.voss-solutions.com/
+  date: Dev 2015 - Feb 2016
+  job: IT Intern
+
+- name: University of ther Western Cape CS Department
+  link: http://cs.uwc.ac.za/
+  date: 2013 - 2014
+  job: Lab Manager

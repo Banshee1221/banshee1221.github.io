@@ -79,7 +79,7 @@ Since I could not put the code on a public online location such as Dockerhub or 
 
 _The below snippet is the CWL definition for the **preparation** part of the **calibrate** step of the pipeline_:
 
-```yaml
+```ruby
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: python3
@@ -109,8 +109,7 @@ outputs:
     outputBinding:
       glob: "*.dat"
 ```
-
-<p style="margin-top: -10px; font-size: 13px; text-align: center"><i>calibration_prep.cwl</i></p>
+<p style="margin-top: 10px; font-size: 13px; text-align: center"><i>calibration_prep.cwl</i></p>
 
 ### Algorithm Part
 
@@ -118,7 +117,7 @@ The crowd at IDIA keep custom CASA and [WSClean](https://arxiv.org/pdf/1407.1943
 
 _The below snippet is the CWL definition for the **algorithmic** part of the **calibrate** step of the pipeline_:
 
-```yaml
+```ruby
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: singularity
@@ -148,7 +147,7 @@ outputs:
       glob: "*.txt"
 ```
 
-<p style="margin-top: -10px; font-size: 13px; text-align: center"><i>calibration.cwl</i></p>
+<p style="margin-top: 10px; font-size: 13px; text-align: center"><i>calibration.cwl</i></p>
 
 In this case I used the Singularity runtime as the tool and provided the script that calls functions from the CASA container (_calibrate.py_) as an input for that. This CWL tool also expects another input, _calibration\_input.dat_, which is the output from the preparation step of this part of the pipeline.
 
@@ -158,7 +157,7 @@ The rest of the steps in the pipeline follow a very similar structure to the two
 
 The overview of the structure of the CWL workflow is as follows:
 
-```shell
+```bash
 $ pwd
 /home/edebeste/Git/jedi_workshop
 $ tree .
@@ -245,7 +244,7 @@ For the most part, while building the workflow, we had been using the `cwl-runne
 
 <figure>
     <img style="border: .5px solid black;" class="img-responsive" src="/assets/images/cwl_toil_time_chart.png" alt="Blasting Students with Science"/>
-    <figcaption style="margin-top: 0px; font-size: 13px; text-align: center"><i>Three Observations Enabled</i></figcaption>
+    <figcaption style="margin-top:5px; font-size: 13px; text-align: center"><i>Three Observations Enabled</i></figcaption>
 </figure>
 
 These results are to be expected. The results of the manual execution of each step and the `cwl-runner` step should be more or less the same, whereas the `cwltoil` execution should scale to be faster based on how many observations are enabled! In this case there were three.
