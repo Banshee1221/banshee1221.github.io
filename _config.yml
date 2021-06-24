@@ -4,7 +4,7 @@
 ####################################
 #
 title: TheMeanTime
-email: debeste.eugene@gmail.com
+email: eugene@debeste.co.za
 description: A Blog About My Personal Experiences in Tech
 url: https://themeanti.me
 keywords: ["blog", "jekyll", "tech", "programming", "devops"]
@@ -37,7 +37,7 @@ owner:
   avatar: eugene_de_beste_small.jpg
   job: "Eugene de Beste"
   bio: "A Blog About My Personal Experiences in Tech."
-  email: debeste.eugene@gmail.com
+  email: eugene@debeste.co.za
   disqus-shortname:
   twitter: edebeste
   facebook: #
