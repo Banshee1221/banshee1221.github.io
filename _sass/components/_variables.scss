@@ -52,15 +52,15 @@ $hr-border-width:             $border-width;
 //
 
 $text-color:       rgba(0, 0, 0, 0.87) !default;
-$background-color: #f5f5f5;
+$background-color: #fafafa;
 
-$white:            #fff;
-$primary:          #42b983;
-$secondary:        #8d7edc;
+$white:            rgb(255, 255, 255);
+$primary:          #435399;
+$secondary:        #757687;
 $success:          #65e892;
-$danger:           #f83e4b;
-$warning:          #F5A623;
-$info:             #09ABF6;
+$danger:           #963841;
+$warning:          #faa158;
+$info:             #30b8f6;
 
 // Tables
 $table-border-color: #d0d0d0 !default;
