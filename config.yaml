@@ -1,4 +1,4 @@
-baseURL: / # if your site is in 'https', then make sure your base url isn't written using 'http' otherwise your sitemap would contain http (as opposeed to https) URLs. This would affect Google indexing of your URLs.
+baseURL: https://eugene.debeste.co.za # if your site is in 'https', then make sure your base url isn't written using 'http' otherwise your sitemap would contain http (as opposeed to https) URLs. This would affect Google indexing of your URLs.
 title: TheMeanTime
 paginate: 5
 theme:
@@ -28,16 +28,16 @@ languages:
           series: series
         menu:
             main:
-                - name: 📚&nbsp Categories&nbsp
+                - name: '📚 Categories '
                   url: categories
                   weight: 5
-                - name: 🔍&nbsp Search&nbsp
+                - name: '🔍 Search '
                   url: search/
                   weight: 10
-                - name: 🔖&nbsp Tags&nbsp
+                - name: '🔖 Tags '
                   url: tags/
                   weight: 10
-                - name: 📄&nbsp Curriculum Vitae&nbsp
+                - name: '📄 Curriculum Vitae'
                   url: https://themeanti.me/markdown-cv
                 # - name: WiKi
                 #   url: https://github.com/adityatelange/hugo-PaperMod/wiki/
