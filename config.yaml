@@ -12,7 +12,7 @@ buildExpired: false
 enableEmoji: true
 pygmentsUseClasses: true
 copyright: "© 2023 Eugene de Beste&nbsp |&nbsp Favicon by Amir Ali @ <a target='_blank' href='https://www.vecteezy.com/vector-art/15534017-lan-creative-icon-design'>vecteezy.com</a>&nbsp  |"
-# googleAnalytics: UA-123-45
+googleAnalytics: G-J3NS1G4ZH9
 
 minify:
     disableXML: true
