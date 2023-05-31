@@ -1,5 +1,5 @@
 baseURL: https://eugene.debeste.co.za # if your site is in 'https', then make sure your base url isn't written using 'http' otherwise your sitemap would contain http (as opposeed to https) URLs. This would affect Google indexing of your URLs.
-title: TheMeanTime
+title: Eugene de Beste
 paginate: 5
 theme:
   - hugo-notice
@@ -38,7 +38,7 @@ languages:
                   url: tags/
                   weight: 10
                 - name: 📄&nbsp Curriculum Vitae&nbsp
-                  url: https://themeanti.me/markdown-cv
+                  url: https://eugene.debeste.co.za/markdown-cv
                 # - name: WiKi
                 #   url: https://github.com/adityatelange/hugo-PaperMod/wiki/
                 # - name: Discord
