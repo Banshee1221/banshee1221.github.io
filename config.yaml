@@ -28,16 +28,16 @@ languages:
           series: series
         menu:
             main:
-                - name: '📚 Categories '
+                - name: 📚&nbsp Categories&nbsp
                   url: categories
                   weight: 5
-                - name: '🔍 Search '
+                - name: 🔍&nbsp Search&nbsp
                   url: search/
                   weight: 10
-                - name: '🔖 Tags '
+                - name: 🔖&nbsp Tags&nbsp
                   url: tags/
                   weight: 10
-                - name: '📄 Curriculum Vitae'
+                - name: 📄&nbsp Curriculum Vitae&nbsp
                   url: https://themeanti.me/markdown-cv
                 # - name: WiKi
                 #   url: https://github.com/adityatelange/hugo-PaperMod/wiki/
@@ -73,9 +73,18 @@ params:
 
     profileMode:
         enabled: true
-        title: TheMeanTime
+        title: Eugene de Beste
+        subtitle: |
+          Welcome to my personal site!
+          <br />
+          I'm an infrastructure automation enthusiast.
+          <br />
+          <br />
+          Find my blog posts below 👇
+          <br />
+          <br />
         imageUrl: images/profile.jpg
-        imageTitle: "IT'S A ME!"
+        imageTitle: "Profile Photo"
         imageWidth: 512
         imageHeight: 512
         buttons:
