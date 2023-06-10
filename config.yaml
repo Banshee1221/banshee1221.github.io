@@ -13,6 +13,7 @@ enableEmoji: true
 pygmentsUseClasses: true
 copyright: "© 2023 Eugene de Beste&nbsp |&nbsp Favicon by Amir Ali @ <a target='_blank' href='https://www.vecteezy.com/vector-art/15534017-lan-creative-icon-design'>vecteezy.com</a>&nbsp  |"
 googleAnalytics: G-J3NS1G4ZH9
+disqusShortname: edb-blog
 
 minify:
     disableXML: true
@@ -68,7 +69,7 @@ params:
     ShowCodeCopyButtons: true
     ShowRssButtonInSectionTermList: true
     ShowToc: true
-    # comments: false
+    comments: true
     images: ["favicon/android-chrome-512x512.png"]
 
     profileMode:
