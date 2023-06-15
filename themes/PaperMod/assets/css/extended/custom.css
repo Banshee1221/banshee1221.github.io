@@ -2,6 +2,11 @@
     background-color: unset;
 }
 
+figure figcaption {
+    margin-top: -10px !important;
+    text-align: center;
+}
+
 figure.floatright {
     margin-top: 0px !important;
     padding-top: 0px !important;
@@ -56,4 +61,9 @@ nav ul li a .active::after {
     font-weight: 500;
     padding-bottom: 7px;
     border-bottom: 2px solid #878787;
+}
+
+.profile_inner img {
+    max-width: 100%;
+    height: auto;
 }

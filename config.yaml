@@ -13,6 +13,7 @@ enableEmoji: true
 pygmentsUseClasses: true
 copyright: "© 2023 Eugene de Beste&nbsp |&nbsp Favicon by Amir Ali @ <a target='_blank' href='https://www.vecteezy.com/vector-art/15534017-lan-creative-icon-design'>vecteezy.com</a>&nbsp  |"
 googleAnalytics: G-J3NS1G4ZH9
+disqusShortname: edb-blog
 
 minify:
     disableXML: true
@@ -28,15 +29,18 @@ languages:
           series: series
         menu:
             main:
+                - name: 📝&nbsp Posts&nbsp
+                  url: posts
+                  weight: 1
                 - name: 📚&nbsp Categories&nbsp
                   url: categories
                   weight: 5
                 - name: 🔍&nbsp Search&nbsp
                   url: search/
                   weight: 10
-                - name: 🔖&nbsp Tags&nbsp
-                  url: tags/
-                  weight: 10
+                # - name: 🔖&nbsp Tags&nbsp
+                #   url: tags/
+                #   weight: 10
                 - name: 📄&nbsp Curriculum Vitae&nbsp
                   url: https://eugene.debeste.co.za/markdown-cv
                 # - name: WiKi
@@ -68,7 +72,7 @@ params:
     ShowCodeCopyButtons: true
     ShowRssButtonInSectionTermList: true
     ShowToc: true
-    # comments: false
+    comments: true
     images: ["favicon/android-chrome-512x512.png"]
 
     profileMode:
