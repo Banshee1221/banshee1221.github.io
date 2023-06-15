@@ -2,14 +2,15 @@
 author: "Eugene de Beste"
 title: "Hello World!"
 date: "2018-02-21"
-description: "First post."
+description: "My first blog post!"
 aliases:
     - "/hello-world"
 categories:
     - General
 tags:
-    - Hello World
-    - First
+    - Blog
+    - First post
+showToc: false
 ---
 
 ## Welcome to my blog

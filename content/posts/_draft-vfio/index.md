@@ -13,9 +13,12 @@ tags:
     - VMs
     - VFIO
     - SRIOV
+    - KVM
+    - QEMU
+    - Linux
 
 TocOpen: true
-draft: False
+draft: true
 ---
 
 ## Preamble

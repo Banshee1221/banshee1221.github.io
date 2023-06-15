@@ -29,15 +29,18 @@ languages:
           series: series
         menu:
             main:
+                - name: 📝&nbsp Posts&nbsp
+                  url: posts
+                  weight: 1
                 - name: 📚&nbsp Categories&nbsp
                   url: categories
                   weight: 5
                 - name: 🔍&nbsp Search&nbsp
                   url: search/
                   weight: 10
-                - name: 🔖&nbsp Tags&nbsp
-                  url: tags/
-                  weight: 10
+                # - name: 🔖&nbsp Tags&nbsp
+                #   url: tags/
+                #   weight: 10
                 - name: 📄&nbsp Curriculum Vitae&nbsp
                   url: https://eugene.debeste.co.za/markdown-cv
                 # - name: WiKi

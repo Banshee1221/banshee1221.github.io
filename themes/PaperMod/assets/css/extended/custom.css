@@ -2,6 +2,11 @@
     background-color: unset;
 }
 
+figure figcaption {
+    margin-top: -10px !important;
+    text-align: center;
+}
+
 figure.floatright {
     margin-top: 0px !important;
     padding-top: 0px !important;
