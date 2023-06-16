@@ -1,4 +1,6 @@
 ---
+cover:
+  image: "cumulus-og2x.png"
 author: "Eugene de Beste"
 title: "External VLANs and (NVIDIA) Cumulus Linux"
 date: "2023-06-16"
