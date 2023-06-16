@@ -1,7 +1,7 @@
 ---
 cover:
-  image: "cumulus-og2x.png"
-  relative: false
+  image: "posts/2023-06-16-cumulus-linux-vlans/cumulus-og2x.png"
+  #relative: false
   alt: "Cumulus Linux Logo"
   caption: "Cumulus Linux Logo"
 author: "Eugene de Beste"
