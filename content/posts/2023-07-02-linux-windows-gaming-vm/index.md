@@ -1,8 +1,12 @@
 ---
+cover:
+  image: "posts/2023-07-02-linux-windows-gaming-vm/qemu_logo.svg"
+  #relative: false
+  alt: "Qemu Logo"
 author: "Eugene de Beste"
 title: "The Power Within: Exploring the Concepts of Linux-Based Windows Gaming Virtual Machines with PCI Passthrough"
-date: "2023-06-05"
-description: 
+date: "2023-07-02"
+description: Use the power of Linux to... use the power of Windows! For games, that is. This post details my experience with using PCI passthrough to create a Windows-based gaming VM from Linux.
 aliases:
     - "/windows-gaming-vm"
 categories:
@@ -21,6 +25,7 @@ TocOpen: true
 draft: true
 ---
 
+---
 ## Preamble
 
 During my undergraduate years, I became increasingly dissatisfied with the Windows workflow and experimented more regularly with Linux. It began with Ubuntu and Mint and eventually culminated in ArchLinux. That journey is perhaps a story for another blog post, but suffice it to say that with its great community, the Arch User Repository (AUR) and particularly its rolling release update scheme, ArchLinux keeps my ADHD brain very satisfied. The transition was mostly smooth, and I felt quite at home in the Linux ecosystem. I spent a lot of time tweaking and compiling software, including the Linux kernel.
@@ -134,7 +139,7 @@ Here is the `lspci` output as example of an Intel 82576 PCIe network adapter wit
 Please keep in mind that the instructions provided in this tutorial are based on my specific hardware and software setup and they may not directly apply to your own configuration. However, the principles discussed here should hopefully have equivalents or similar concepts that can be adapted to your system.
 {{< /notice >}}
 
-### Hardware Notes
+### Hardware
 
 Let's start by briefly discussing my current computer. The hardware is as follows:
 
@@ -162,7 +167,7 @@ Achieving these requirements limits the available options for purchase. When I w
   <figcaption>This illustration is for the Aorus Extreme X570, but it is funcionally similar to the Master.</figcaption>
 </figure>
 
-### Software Notes
+### Software
 
 #### BIOS Configuration
 
@@ -174,13 +179,136 @@ Look through the BIOS and enable any features that are related to **IOMMU or IOM
 
 Most operating systems do not ship with support for IOMMU grouping enabled by default, and this is true for ArchLinux. In order to enable support for the PCI passthrough functionality, we need to make some modifications. Your bootloader configuration needs to be updated to include `intel_iommu=on` **if you are using an Intel CPU**. If you are on the AMD platform, enabling the required settings in the BIOS for AMD virtualization extensions should enable IOMMU grouping by default.
 
-#### OS and Virtual Machine Configuration
+#### Operating System Configuration
 
-Now on to the good part.
+Now on to the fun part.
 
-We mneed to prepare the (vfio-pci)
+We need to prepare the opearting system to support VFIO. Get your IOMMU groups by using [the script on the ArchLinux Wiki](https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF#Ensuring_that_the_groups_are_valid):
+
+```bash
+#!/bin/bash
+shopt -s nullglob
+for g in $(find /sys/kernel/iommu_groups/* -maxdepth 0 -type d | sort -V); do
+    echo "IOMMU Group ${g##*/}:"
+    for d in $g/devices/*; do
+        echo -e "\t$(lspci -nns ${d##*/})"
+    done;
+done;
+```
+
+Note down the *vendor and device IDs* of the GPU that you want to use for passthrough. In my case, I identified my RTX 4090 in `IOMMU Group 29`. The vendor and device ID are displayed in the `[vendor:device]` output. Example below:
+
+```shell
+...
+IOMMU Group 29:
+	0c:00.0 VGA compatible controller [0300]: NVIDIA Corporation AD102 [GeForce RTX 4090] [10de:2684] # <--- vendor:device 
+	0c:00.1 Audio device [0403]: NVIDIA Corporation AD102 High Definition Audio Controller [10de:22ba] # <--- vendor:device 
+...
+```
+
+Now we need to build a new initial RAM filesystem (initramfs) for early loading. There are different ways to do this, but in this example I'm using `mkinitcpio` to do this with. Using `mkinitcpio`, you need to make the following changes:
+
+1. Create the `/etc/modprobe.d/vfio.conf` file and put the following in it:
+   ```ini
+   softdep drm pre: vfio-pci
+   options vfio-pci ids=10de:2684,10de:22ba # <--- These values are derived from the vendor:device pairs
+   ```
+2. Edit the `/etc/mkinitcpio.conf` file and make the following changes:
+   ```ini
+   MODULES=(... vfio_pci vfio vfio_iommu_type1)
+   ```
+
+Now you can reboot your computer and run the following commands to ensure that things are working:
+
+- dmesg | grep -i vfio
+    ```log
+    [root@archbanshee edebeste]# dmesg | grep -i vfio
+    [    2.693007] VFIO - User Level meta-driver version: 0.3
+    [    2.700101] vfio-pci 0000:0c:00.0: vgaarb: changed VGA decodes: olddecodes=io+mem,decodes=io+mem:owns=none
+    [    2.700180] vfio_pci: add [10de:2684[ffffffff:ffffffff]] class 0x000000/00000000
+    [    2.748411] vfio_pci: add [10de:22ba[ffffffff:ffffffff]] class 0x000000/00000000
+
+    ```
+- Using `lspci -nnk -d <vendor:device>` and ensuring that the targetted device is bound by the `vfio-pci` driver, for example:
+   ```text
+   [root@archbanshee edebeste]# lspci -nnk -d 10de:2684
+   0c:00.0 VGA compatible controller [0300]: NVIDIA Corporation AD102 [GeForce RTX 4090] [10de:2684] (rev a1)
+   Subsystem: ASUSTeK Computer Inc. AD102 [GeForce RTX 4090] [1043:889a]
+   Kernel driver in use: vfio-pci # <--- this is what you want.
+   Kernel modules: nouveau, nvidia_drm, nvidia
+   ```
+
+{{< notice info>}}
+Please refer to the ArchLinux Wiki on PCI passthrough for more information: https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF
+{{< /notice >}}
+
+#### Virtual Machine Configuration
 
 If you want to use PCI passthrough effectively, you'll need to utilize the Open Virtual Machine Firmware (OVMF) project. This project aims to provide a UEFI firmware for a virtual machine to initialize from. This is needed as modern GPUs typically require UEFI for PCI passthrough to function properly. Your Linux distribution instructions will vary, but for ArchLinux, it's as simple as going `pacman -Syy && pacman -S edk2-ovmf`. 
 
-My favourite tool suite for managing QEMU on Linux is libvirt and Virt Manager. Libvirt is a library that abstracts various hypervisors and provides the user with a common language to interact with them, while Virt Manager is a frontend for libvirt, offering a nice GUI for defining and configuring virtual machines.
+INSTALL TPM EMU!!  swtpm
 
+My favourite tool suite for managing QEMU on Linux is libvirt and Virt Manager. Libvirt is a library that abstracts various hypervisors and provides the user with a common language to interact with them, while Virt Manager is a frontend for libvirt, offering a nice GUI for defining and configuring virtual machines. Those can be installed with `pacman -S qemu-base virt-manager`. Now we're ready to configure our VM.
+
+In Virt-manager:
+
+1. Create a new VM via the top left button.
+
+<figure style="text-align: center;">
+  <img src="virt_manager-screen1.png" style="margin-top: -25px; margin-bottom: -25px; margin-left: auto; margin-right: auto;">
+  <figcaption>Virt Machine Manager Main Screen</figcaption>
+</figure>
+
+2. Select "Manual install" and click forward.
+3. Type the name of the operating system you want to use, in this case Windows 11.
+4. Set the memory and vCPU count you want in this screen. This can be changed later.
+
+<figure style="text-align: center;">
+  <img src="virt_manager-screen2.png" style="margin-top: -25px; margin-bottom: -25px; margin-left: auto; margin-right: auto;">
+  <figcaption>Virt Machine Manager Resources Screen</figcaption>
+</figure>
+
+5. Now you'll be prompted for the disk you want to use. By default it'll try to create a virtual disk for you. This can be fine, but I wanted to use a physical disk. In that case, I selected "Select or create custom storage" and enter the path to the disk you want to use. For me, that was `/dev/sdd`, which is my 500GB SATA SSD dedicated to the guest OS.
+
+<figure style="text-align: center;">
+  <img src="virt_manager-screen3.png" style="margin-top: -25px; margin-bottom: -25px; margin-left: auto; margin-right: auto;">
+  <figcaption>Virt Machine Manager Storage Screen</figcaption>
+</figure>
+
+6. On the final screen, ensure that you've ticked on "**Customize configuration before install**"!
+
+Now you'll be in the customization screen. Here we can add the GPU and make other changes.
+
+1. Under "Overview" make sure Chipset is set to `Q35` and Firmware is one of the secure boot x64 options, such as `OVMF_CODE.secboot.fd`.
+2. Under CPU 
+...
+
+remove tablet, display spice, sound ich9, video qxl and usb redirectores. add a mouse and keyboard
+
+ click add hardware
+
+I opted to use scream for audio. This requires adding an shmem device. Edit the XML and put down the following:
+
+```
+     <shmem name="scream-ivshmem">
+   <model type="ivshmem-plain"/>
+     <size unit="M">2</size>
+     <address type="pci" domain="0x0000" bus="0x00" slot="0x11" function="0x0"/>
+   </shmem>
+```
+
+also evdev.
+
+edit domain
+```
+<domain type='kvm' id='1' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+```
+then
+```
+ <qemu:commandline>
+ <qemu:arg value='-object'/>
+ <qemu:arg value='input-linux,id=mouse1,evdev=/dev/input/by-id/MOUSE_NAME'/>
+ <qemu:arg value='-object'/>
+ <qemu:arg value='input-linux,id=kbd1,evdev=/dev/input/by-id/KEYBOARD_NAME,grab_all=on,repeat=on'/>
+ </qemu:commandline>
+ ```
