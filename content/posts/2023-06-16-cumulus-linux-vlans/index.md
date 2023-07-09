@@ -8,8 +8,7 @@ author: "Eugene de Beste"
 title: "External VLANs and (NVIDIA) Cumulus Linux"
 date: "2023-06-16"
 description: "I've recently had to work with NVIDIA Cumulus Linux. This blog post details how to trunk in an external VLAN from an existing network."
-aliases:
-    - "/cumulus-linux-vlans"
+
 categories:
     - Technology
 tags:
@@ -21,8 +20,6 @@ tags:
 
 TocOpen: true
 ---
-
-# Preamble
 
 For the past little while, I've been quite involved in hardware automation. Whether it's spinning up cloud environments (with OpenStack) or working with services on bare-metal machines outside of a cloud-like environment, the common requirement is:
 

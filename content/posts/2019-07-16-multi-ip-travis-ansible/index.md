@@ -3,8 +3,6 @@ author: "Eugene de Beste"
 title: "Testing Multi-Machine Ansible Roles with Travis-CI and Docker compose"
 date: "2019-07-16"
 description: Aiming to increase my Ansible skills, I spent some time improving my Ansible role for deploying the Slurm scheduler. This is how I managed to test the server-client Ansible role in Travis-CI.org using Docker compose.
-aliases:
-    - "/letsencrypt-wildcards"
 categories:
     - Technology
 tags:
