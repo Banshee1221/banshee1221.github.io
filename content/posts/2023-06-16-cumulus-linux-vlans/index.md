@@ -7,16 +7,25 @@ cover:
 author: "Eugene de Beste"
 title: "External VLANs and (NVIDIA) Cumulus Linux"
 date: "2023-06-16"
-description: "I've recently had to work with NVIDIA Cumulus Linux. This blog post details how to trunk in an external VLAN from an existing network."
-
+description: I've recently had to work with NVIDIA Cumulus Linux. This blog post details how to trunk in an external VLAN from an existing network.
 categories:
-    - Technology
+  - Technology
 tags:
-    - Switching
-    - Networking
-    - Cumulus Linux
-    - Linux
-    - Linux Bridges
+  - Switching
+  - Networking
+  - Cumulus Linux
+  - Linux
+  - Linux Bridges
+  - VLAN Configuration
+  - VLAN Trunking
+  - Network Virtualization
+  - Network Segmentation
+  - Performance Optimization
+  - Network Management
+  - Data Center Networking
+  - Network Security
+  - Layer 2 Networking
+  - Network Infrastructure
 
 TocOpen: true
 ---
