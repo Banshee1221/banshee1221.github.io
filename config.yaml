@@ -4,6 +4,7 @@ paginate: 5
 theme:
   - hugo-notice
   - PaperMod
+
 enableInlineShortcodes: true
 enableRobotsTXT: true
 buildDrafts: false
@@ -11,7 +12,7 @@ buildFuture: false
 buildExpired: false
 enableEmoji: true
 pygmentsUseClasses: true
-copyright: "© 2023 Eugene de Beste&nbsp |&nbsp Favicon by Amir Ali @ <a target='_blank' href='https://www.vecteezy.com/vector-art/15534017-lan-creative-icon-design'>vecteezy.com</a>&nbsp  |"
+copyright: "© 2024 Eugene de Beste | Favicon by Amir Ali @ <a target='_blank' href='https://www.vecteezy.com/vector-art/15534017-lan-creative-icon-design'>vecteezy.com</a>  |"
 googleAnalytics: G-J3NS1G4ZH9
 disqusShortname: edb-blog
 
@@ -29,19 +30,19 @@ languages:
           series: series
         menu:
             main:
-                - name: 📝&nbsp Posts&nbsp
+                - name: "📝 Posts "
                   url: posts
                   weight: 1
-                - name: 📚&nbsp Categories&nbsp
+                - name: "📚 Categories "
                   url: categories
                   weight: 5
-                - name: 🔍&nbsp Search&nbsp
+                - name: "🔍 Search "
                   url: search/
                   weight: 10
                 # - name: 🔖&nbsp Tags&nbsp
                 #   url: tags/
                 #   weight: 10
-                - name: 📄&nbsp Curriculum Vitae&nbsp
+                - name: "📄 Curriculum Vitae "
                   url: https://eugene.debeste.co.za/markdown-cv
                 # - name: WiKi
                 #   url: https://github.com/adityatelange/hugo-PaperMod/wiki/
@@ -62,8 +63,8 @@ disqus:
 
 params:
     env: production # to enable google analytics, opengraph, twitter-cards and schema.
-    description: "A blog about mostly technical things. Mostly infrastructure automation."
-    author: "Eugene de Beste"
+    description: "A blog about mostly technical things. Warning: I don't really know what I'm talking about."
+    author: Eugene de Beste
     dateFormat: "January 2, 2006"
     defaultTheme: auto
     disableThemeToggle: false

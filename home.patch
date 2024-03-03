@@ -1,0 +1,13 @@
+diff --git a/themes/PaperMod/layouts/partials/header.html b/themes/PaperMod/layouts/partials/header.html
+index 4a7291e..5d59b0c 100644
+--- a/themes/PaperMod/layouts/partials/header.html
++++ b/themes/PaperMod/layouts/partials/header.html
+@@ -100,7 +100,7 @@
+                 {{- $separator := or $label_text (not site.Params.disableThemeToggle)}}
+                 {{- with site.Home.AllTranslations }}
+                 <ul class="lang-switch">
+-                    {{- if $separator }}<li>|</li>{{ end }}
++                    <!--{{- if $separator }}<li>|</li>{{ end }}-->
+                     {{- range . -}}
+                     {{- if ne $lang .Lang }}
+                     <li>
