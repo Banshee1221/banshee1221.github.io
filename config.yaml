@@ -55,6 +55,11 @@ outputs:
         - RSS
         - JSON
 
+disqus:
+  enable: true
+  shortname: edb-blog
+  count: true
+
 params:
     env: production # to enable google analytics, opengraph, twitter-cards and schema.
     description: "A blog about mostly technical things. Mostly infrastructure automation."
