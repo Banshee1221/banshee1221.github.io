@@ -20,7 +20,7 @@ If you're impatient, skip to the <a href="#solution">solution section</a> 😃
 
 Over the last few months I've been working with the University of Cape Town on the [Ilifu research cloud project](http://www.researchsupport.uct.ac.za/ilifu). The focus for the initial release of the cloud is mainly to provide compute and storage to astronomy and bioinformatics use cases.
 
-The technology powering this cloud is the ever-growing-in-popularity combination of OpenStack (Queens release) as the virtualisation platform and Ceph (Luminous) as the storage backend. We're utilising the [Kolla](https://github.com/openstack/kolla) and [Kolla-ansible](https://github.com/openstack/kolla-ansible) projects to deploy the OpenStack side of things. I am the lead on the Ceph deployment and opted for the [Ceph-ansible](https://github.com/ceph/ceph-ansible) method of deployment.
+The technology powering this cloud is the ever-growing-in-popularity combination of OpenStack (Queens release) as the virtualization platform and Ceph (Luminous) as the storage backend. We're utilising the [Kolla](https://github.com/openstack/kolla) and [Kolla-ansible](https://github.com/openstack/kolla-ansible) projects to deploy the OpenStack side of things. I am the lead on the Ceph deployment and opted for the [Ceph-ansible](https://github.com/ceph/ceph-ansible) method of deployment.
 
 We ran into some issues getting the OpenStack services to work on the Ceph cluster when using erasure coded pools...
 

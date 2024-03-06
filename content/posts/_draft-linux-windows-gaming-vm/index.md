@@ -55,7 +55,7 @@ This section won't be an exhaustive list of concepts and their descriptions, but
 
 Virtualization came out of a desire to maximise the utilisation of physical hardware and for portability of software. Before containers were so common, people used to create virtual machines for their applications in order to ship dependencies or scale their services. It’s hard to believe, because it seems like such a clunky approach compared to what we have now, but containers were not well developed or as ubiquitous. The general idea is that you have some agent or driver, referred to as a “hypervisor” which is responsible for mimicking what actual hardware would look like to an operating system. This hypervisor will reserve hardware (such as memory) for use by the guest.
 
-The guest operating system’s full stack is installed to a physical or virtualised drive. This means that the kernel, operating system, libraries and everything else are installed. The operating system inside the virtual machine may never know that it is not running on physical hardware.
+The guest operating system’s full stack is installed to a physical or virtualized drive. This means that the kernel, operating system, libraries and everything else are installed. The operating system inside the virtual machine may never know that it is not running on physical hardware.
 
 <figure>
   <img src="vm_vs_container.svg">
