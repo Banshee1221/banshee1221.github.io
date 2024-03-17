@@ -2,7 +2,7 @@
 cover:
   image: "posts/2024-03-10-dynamic-raspberry-pi-provisioning/banner.jpg"
   relative: false
-  alt: "Ubuntu Login Prompt That Says Login Failed."
+  alt: "Images of Tools and Technologies Used For This Blog."
   #caption: "I'm sorry Dave, I'm afraid I can't do that."
 author: "Eugene de Beste"
 title: "Automated and Dynamic Raspberry Pi Provisioning For The Lazy Homelabber Featuring Canonical MAAS and Python"
