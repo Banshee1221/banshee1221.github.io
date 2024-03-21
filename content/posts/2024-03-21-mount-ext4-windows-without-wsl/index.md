@@ -1,9 +1,9 @@
 ---
 cover:
-  #image: "posts/2024-03-17-pi-zero2-cctv/banner.jpg"
+  image: "posts/2024-03-21-mount-ext4-windows-without-wsl/banner.jpg"
   #relative: false
-  #alt: "Ubuntu Login Prompt That Says Login Failed."
-  #caption: "I'm sorry Dave, I'm afraid I can't do that."
+  alt: "A match made in heaven?"
+  caption: "Computer says no."
 author: "Eugene de Beste"
 title: "When WSL Fails You: Mounting ext4 Linux Partitions on Windows When They're on the Same Drive as C:"
 date: "2024-03-21"
@@ -11,7 +11,12 @@ description: Still dual-booting Windows and Linux for experimentation reasons, I
 categories:
   - Technology
 tags:
-  - RaspberryPi
+  - Linux
+  - Windows
+  - Dual-boot
+  - WSL
+  - WSL2
+  - Filesystems
 
 
 showtoc: true
