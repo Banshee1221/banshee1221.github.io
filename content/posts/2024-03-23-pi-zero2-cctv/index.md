@@ -5,14 +5,18 @@ cover:
   alt: "A person looking at a monitor with the Raspberry Pi logo and a Raspberry Pi Zero 2 W device in it. There is a camera in the top left pointed at the person."
   caption: "You are being watched."
 author: "Eugene de Beste"
-title: "Wireless Pi Zero 2 Powered CCTV Monitor on the Cheap"
+title: "Step Up Your Home Security Game on the Cheap With A Raspberry Pi Zero 2 W Powered CCTV Monitor"
 date: "2024-03-23"
 description: Not too long ago I set up a few IP cameras around the house. I wanted a non-proprietary way to monitor the feeds while I'm in my study. This blog post details my solution leveraging a Raspberry Pi Zero 2 W and an old computer monitor.
 categories:
   - Technology
 tags:
   - RaspberryPi
-
+  - Security
+  - Home Security
+  - Cameras
+  - IP Camera
+  - CCTV
 
 showtoc: true
 TocOpen: true
