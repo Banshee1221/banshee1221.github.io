@@ -1,6 +1,6 @@
 ---
 cover:
-  image: "posts/2024-03-17-pi-zero2-cctv/banner.jpg"
+  image: "posts/2024-03-23-pi-zero2-cctv/banner.jpg"
   relative: false
   alt: "A person looking at a monitor with the Raspberry Pi logo and a Raspberry Pi Zero 2 W device in it. There is a camera in the top left pointed at the person."
   caption: "You are being watched."
