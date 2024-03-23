@@ -16,7 +16,6 @@ tags:
 
 showtoc: true
 TocOpen: true
-draft: true
 ---
 
 Not too long ago I set up a few IP cameras around the house. As I work mostly from home, I wanted a non-proprietary and cost effective way to monitor four video feeds at any time while I'm in my study.
@@ -185,7 +184,7 @@ The Pi needs to be rebooted for the configuration change to apply:
 reboot
 ```
 
-# 5. Configure displaycameras
+# 5. Configure _Displaycameras_
 
 _Displaycameras_ can now be configured to show the desired camera feeds.
 
@@ -255,6 +254,8 @@ systemctl restart displaycameras
 ```
 
 💥 **Voilà** 💥
+
+![Results](./result.webp)
 
 # Caveats
 
