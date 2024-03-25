@@ -5,7 +5,7 @@ cover:
   alt: "A person looking at a monitor with the Raspberry Pi logo and a Raspberry Pi Zero 2 W device in it. There is a camera in the top left pointed at the person."
   caption: "You are being watched."
 author: "Eugene de Beste"
-title: "Step Up Your Home Security Game on the Cheap With A Raspberry Pi Zero 2 W Powered CCTV Monitor"
+title: "Step Up Your Home Security Game on the Cheap With A Raspberry Pi Zero 2 W Powered IP Camera Monitor"
 date: "2024-03-23"
 description: Not too long ago I set up a few IP cameras around the house. I wanted a non-proprietary way to monitor the feeds while I'm in my study. This blog post details my solution leveraging a Raspberry Pi Zero 2 W and an old computer monitor.
 categories:
@@ -46,13 +46,13 @@ It's probably easiest to just buy a bundle for the Pi Zero 2 W, which normally i
 
 # 0. Preparation
 
-The only requirement before getting started is to download an older, archived 32-bit version of Raspberry Pi OS based on Debian 10 (Buster). The last released build is hosted here: https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-05-28/2021-05-07-raspios-buster-armhf-lite.zip.
+The only requirement before getting started is to download an older, archived 32-bit version of Raspberry Pi OS based on Debian 10 Buster (the 32-bit OS will use less memory on an already starved Pi Zero). The last released build is hosted here: https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-05-28/2021-05-07-raspios-buster-armhf-lite.zip.
 
 😱😱😱 A deprecated operating system? But what about security!
 
-I know, I know, but the reason for this is that I leverage a tool for displaying the camera feeds which relies on an older video player called `omxplayer`. `omxplayer` supports the hardware acceleration on Pis, but is deprecated on newer versions of RaspiOS in favor of `vlc`. While `vlc` can do hardware acceleration in newer RaspiOS versions, I've (anecdotally) found that `omxplayer` has slightly better latency when streaming the feeds. 
+I know, I know, but the reason for this is that I leverage a tool for displaying the camera feeds which relies on an older video player called `omxplayer`. `omxplayer` supports the hardware acceleration on Pis, but is deprecated on newer versions of RaspiOS in favor of `vlc`. While `vlc` can do hardware acceleration in newer RaspiOS versions, I've (anecdotally) found that `omxplayer` has slightly better latency when streaming the feeds.
 
-The Pi is also connected to a secure internal network with limited routing and will only ever run an SSH server outside of the camera feed software so there shouldn't be much risk to it.
+The Pi is connected to a secure internal network with limited routing and will only ever run an SSH server outside of the camera feed software so there shouldn't be much risk to it.
 
 # 1. Flash the MicroSD Card
 
@@ -147,6 +147,12 @@ chmod +x install.sh
 ```
 
 When prompted about setting up the GPU split, enter `256` and hit enter. Type `n` for seeing the README.md and hit enter, since it's in the [GitHub repo](https://github.com/Anonymousdog/displaycameras/blob/master/README.md).
+
+{{< notice info >}}
+I've settled on the value of `256`MB for the GPU split, because it provided me with the most stability during my testing. This value allocates memory for dedicated use by the Pi GPU, lowering the amount usable by the operating system.
+
+Since the Pi is dedicated for the purpose of streaming video feeds, lowering the system memory by this amount is not an issue.
+{{</ notice >}}
 
 ![Displaycameras Install Prompt](./displaycameras_install_prompt.png)
 
